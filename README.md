@@ -16,8 +16,8 @@ npm start
 
 - [ ] Moderation commands
 
-  - [ ] Ban
-  - [ ] Kick
+  - [x] Ban
+  - [x] Kick
   - [ ] Warn
   - [ ] Unwarn
   - [ ] Mute

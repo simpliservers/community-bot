@@ -22,7 +22,7 @@ const commandFiles: string[] = readdirSyncRecursive('./src/commands', '.ts');
 
 commandFiles.forEach((file: string) => {
   const command = require(`.${file}`);
-  client.commands.set(command.data.name, command);
+  if (command.data) client.commands.set(command.data.name, command);
 });
 
 // On client ready, log to console
@@ -40,10 +40,18 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 
   try {
     await command.execute(interaction, client);
-  } catch (error) {
+  } catch (error: any) {
     log.error(error);
+
+    if (error.httpStatus === 401) {
+      return interaction.reply({
+        content: `Sorry, but I'm missing some permissions for this command.`,
+        ephemeral: true,
+      });
+    }
+
     return interaction.reply({
-      content: 'There was an error while executing this command!',
+      content: `Sorry, I ran into an error.`,
       ephemeral: true,
     });
   }

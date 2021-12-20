@@ -1,3 +1,7 @@
+# Config files
+.env
+config.yml
+
+# Other
 node_modules/
 build/
-.env

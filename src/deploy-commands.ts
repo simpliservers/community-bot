@@ -23,7 +23,8 @@ const commandFiles = readdirSyncRecursive('./src/commands', '.ts');
 
 commandFiles.forEach((file: string) => {
   const command = require(`.${file}`);
-  commands.push(command.data.toJSON());
+
+  if (command.data) commands.push(command.data.toJSON());
 });
 
 const rest = new REST({ version: '9' }).setToken(clientToken);

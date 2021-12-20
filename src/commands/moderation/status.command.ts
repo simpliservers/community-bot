@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Logger } from 'tslog';
 
-const log = new Logger();
+const log: Logger = new Logger();
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,8 +14,8 @@ module.exports = {
       option.setName('content').setDescription('Status content.'),
     ),
   async execute(interaction: any, client: any) {
-    const type = await interaction.options.getString('type');
-    const content = await interaction.options.getString('content');
+    const type: string = await interaction.options.getString('type');
+    const content: string = await interaction.options.getString('content');
 
     log.info(type);
     log.info(content);
