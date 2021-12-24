@@ -4,6 +4,10 @@ apiUrl: ''
 # API token
 apiToken: ''
 
+# DeepL
+deeplUrl: 'https://api-free.deepl.com/v2'
+deeplAuthKey: ''
+
 # Client configuration
 clientID: ''
 guildID: ''

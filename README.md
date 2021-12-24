@@ -33,7 +33,7 @@ npm start
 
   - Logs all messages
 
-- [ ] Translator
+- [x] Translator
 
 - [ ] Ticket system
 

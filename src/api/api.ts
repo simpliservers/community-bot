@@ -11,7 +11,7 @@ const apiUrl: string = conf.apiUrl || '';
 
 const config = {
   headers: {
-    Authorization: `${conf.apiToken}`,
+    Authorization: `Bearer ${conf.apiToken}`,
   },
 };
 
