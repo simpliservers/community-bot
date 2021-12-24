@@ -1,6 +1,12 @@
+# URL for the backend
+apiUrl: ''
+
+# API token
+apiToken: ''
+
 # Client configuration
-clientID: '914133440692097054'
-guildID: '318817494204678154'
+clientID: ''
+guildID: ''
 
 # Moderation configuration
-modRole: '522085109940224060'
+modRole: ''
