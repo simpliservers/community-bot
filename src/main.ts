@@ -38,6 +38,7 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message: any) => {
   if (message.channel.type != 'GUILD_TEXT') return;
+  if (message.author.id == client.user.id) return;
   await Member.logMessage(
     message.author.id,
     message.channel.name,
