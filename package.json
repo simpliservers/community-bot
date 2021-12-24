@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "start": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
-    "dev": "nodemon -e ts  --exec \"npm run start\"",
+    "dev": "nodemon --exec \"npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "axios": "^0.24.0",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",

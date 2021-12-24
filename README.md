@@ -18,11 +18,9 @@ npm start
 
   - [x] Ban
   - [x] Kick
-  - [ ] Warn
-  - [ ] Unwarn
+  - [x] Warn system
   - [ ] Mute
-  - [ ] User info
-  - [ ] Warning ( check all warnings for user )
+  - [x] User info
 
 - [ ] Radio
 

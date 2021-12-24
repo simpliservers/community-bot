@@ -10,8 +10,8 @@ function checkUserPermissions(member: any): boolean {
 
   if (
     member.permissions.has('KICK_MEMBERS', {
-      checkAdmin: false,
-      checkOwner: false,
+      checkAdmin: true,
+      checkOwner: true,
     })
   )
     return true;

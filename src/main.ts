@@ -14,7 +14,11 @@ const clientToken: string = process.env.TOKEN || '';
 
 // Initialize new Discord client
 const client: any = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+  ],
 });
 
 client.commands = new Collection();
@@ -43,6 +47,8 @@ client.on('interactionCreate', async (interaction: Interaction) => {
   } catch (error: any) {
     log.error(error);
 
+    const member = await interaction!.guild!.members.fetch(interaction.user.id);
+
     if (error.httpStatus === 401) {
       return interaction.reply({
         content: `Sorry, but I'm missing some permissions for this command.`,
@@ -58,3 +64,5 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 });
 
 client.login(clientToken);
+
+export default client;

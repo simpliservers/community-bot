@@ -5,13 +5,13 @@ import { sendActionEmbed } from '../../utils/embeds';
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('ban')
-    .setDescription('Bans a user from the server.')
+    .setName('warn')
+    .setDescription('Warn a user.')
     .addUserOption((option) =>
-      option.setName('target').setDescription('Ban target.'),
+      option.setName('target').setDescription('Warn target.'),
     )
     .addStringOption((option) =>
-      option.setName('reason').setDescription('Reason for the ban.'),
+      option.setName('reason').setDescription('Reason for the warning.'),
     ),
   async execute(interaction: any) {
     const target = await interaction.options.getUser('target');
@@ -20,17 +20,16 @@ module.exports = {
     const member = await interaction.guild.members.fetch(interaction.user.id);
 
     if (checkUserPermissions(member)) {
-      await interaction.guild.members.ban(target, { reason });
-      await Member.ban(target.id, interaction.user.id, reason);
+      await Member.warn(target.id, interaction.user.id, reason);
 
       interaction.reply({
         embeds: [
-          sendActionEmbed(target.id, interaction.user.id, reason, 'ban'),
+          sendActionEmbed(target.id, interaction.user.id, reason, 'warn'),
         ],
       });
     } else {
       interaction.reply({
-        content: `You're missing the permissions to ban people.`,
+        content: `You're missing the permissions to kick people.`,
         ephemeral: true,
       });
     }
