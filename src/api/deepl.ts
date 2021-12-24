@@ -12,8 +12,6 @@ export default class DeepL {
       `${apiUrl}/translate?auth_key=${conf.deeplAuthKey}&text=${text}&target_lang=${language}`,
     );
 
-    console.log(res.data.translations[0]);
-
     return res.data.translations[0];
   }
 }
