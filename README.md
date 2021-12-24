@@ -29,7 +29,7 @@ npm start
 
 - [ ] Shortcut system
 
-- [ ] Logging system
+- [x] Logging system
 
   - Logs all messages
 
