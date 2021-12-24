@@ -23,7 +23,7 @@ export default class Member {
   }
 
   static async create(username: string, discordid: string) {
-    const data: Data = {
+    const data: MemberData = {
       data: {
         username,
         discordid,
@@ -43,7 +43,7 @@ export default class Member {
     const banned_by: number = (await Member.get(bannerId)).id;
     const member: number = (await Member.get(bannedId)).id;
 
-    const data: Data = {
+    const data: BanData = {
       data: {
         banned_by,
         member,
@@ -61,7 +61,7 @@ export default class Member {
     const kicked_by: number = (await Member.get(kickerId)).id;
     const member: number = (await Member.get(kickedId)).id;
 
-    const data: Data = {
+    const data: KickData = {
       data: {
         kicked_by,
         member,
@@ -79,7 +79,7 @@ export default class Member {
     const warned_by: number = (await Member.get(warnerId)).id;
     const member: number = (await Member.get(warnedId)).id;
 
-    const data: Data = {
+    const data: WarnData = {
       data: {
         warned_by,
         member,
@@ -89,31 +89,67 @@ export default class Member {
 
     await axios.post(`${apiUrl}/warns`, data, config);
   }
+
+  static async logMessage(
+    authorId: string,
+    channelName: string,
+    channelId: string,
+    content: string,
+  ) {
+    await checkForUser(authorId);
+    const author: number = (await Member.get(authorId)).id;
+
+    log.info(`Logging message from ${authorId} in ${channelName}: ${content}`);
+
+    const data: MessageData = {
+      data: {
+        author,
+        channelName,
+        channelId,
+        content,
+      },
+    };
+
+    await axios.post(`${apiUrl}/messages`, data, config);
+  }
 }
 
 interface MemberData {
-  username: string;
-  discordid: string;
+  data: {
+    username: string;
+    discordid: string;
+  };
 }
 
 interface BanData {
-  banned_by: number;
-  member: number;
-  reason: string;
+  data: {
+    banned_by: number;
+    member: number;
+    reason: string;
+  };
 }
 
 interface KickData {
-  kicked_by: number;
-  member: number;
-  reason: string;
+  data: {
+    kicked_by: number;
+    member: number;
+    reason: string;
+  };
 }
 
 interface WarnData {
-  warned_by: number;
-  member: number;
-  reason: string;
+  data: {
+    warned_by: number;
+    member: number;
+    reason: string;
+  };
 }
 
-interface Data {
-  data: MemberData | BanData | KickData | WarnData;
+interface MessageData {
+  data: {
+    author: number;
+    channelName: string;
+    channelId: string;
+    content: string;
+  };
 }

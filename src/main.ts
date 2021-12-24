@@ -1,7 +1,8 @@
 import { config } from 'dotenv';
-import { Client, Collection, Intents, Interaction } from 'discord.js';
+import { Client, Collection, Intents, Interaction, Message } from 'discord.js';
 import { Logger } from 'tslog';
 import { readdirSyncRecursive } from './utils';
+import Member from './api/api';
 
 // Load environment variables from .env file, where API keys and passwords are configured
 config();
@@ -33,6 +34,16 @@ commandFiles.forEach((file: string) => {
 client.once('ready', () => {
   log.info('Ready!');
   client.user.setActivity('with your feelings.');
+});
+
+client.on('messageCreate', async (message: any) => {
+  if (message.channel.type != 'GUILD_TEXT') return;
+  await Member.logMessage(
+    message.author.id,
+    message.channel.name,
+    message.channelId,
+    message.content,
+  );
 });
 
 client.on('interactionCreate', async (interaction: Interaction) => {
