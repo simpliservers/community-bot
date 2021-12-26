@@ -18,3 +18,6 @@ muteRole: ''
 
 # Shortcuts prefix
 shortcutPrefix: '.'
+
+# Meme subreddits
+subreddits: ['', '']

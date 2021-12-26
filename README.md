@@ -40,9 +40,8 @@ npm start
 - [ ] Ticket system
 - [ ] Leveling system
 
-- [ ] Other misc commands
+- [x] Other misc commands
 
-  - [ ] Coinflip
-  - [ ] Memes (from Reddit)
-  - [ ] Random number
-  - [ ] Commands from old bot
+  - [x] Coinflip
+  - [x] Memes (from Reddit)
+  - [x] Random number
