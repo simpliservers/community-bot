@@ -14,13 +14,13 @@ npm start
 
 ## To-Do
 
-- [ ] Moderation commands
+- [x] Moderation commands
 
   - [x] Ban
   - [x] Softban
   - [x] Kick
   - [x] Warn system
-  - [ ] Mute
+  - [x] Mute
   - [x] User info
   - [x] Clear messages
 

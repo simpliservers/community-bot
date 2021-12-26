@@ -5,3 +5,4 @@ export { shortcutsAction } from './shortcuts.embed';
 export { displayShortcuts } from './shortcuts.embed';
 export { displayShortcut } from './shortcuts.embed';
 export { default as sendClearEmbed } from './clear.embed';
+export { default as sendMuteAction } from './mute.embed';

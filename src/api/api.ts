@@ -110,6 +110,24 @@ export default class Member {
     await axios.post(`${apiUrl}/warns`, data, config);
   }
 
+  static async mute(mutedId: string, muterId: string, reason: string) {
+    await checkForUser(mutedId);
+    await checkForUser(muterId);
+
+    const muted_by: number = (await Member.get(muterId)).id;
+    const member: number = (await Member.get(mutedId)).id;
+
+    const data: MuteData = {
+      data: {
+        muted_by,
+        member,
+        reason,
+      },
+    };
+
+    await axios.post(`${apiUrl}/mutes`, data, config);
+  }
+
   static async logMessage(
     authorId: string,
     channelName: string,
@@ -161,6 +179,14 @@ interface KickData {
 interface WarnData {
   data: {
     warned_by: number;
+    member: number;
+    reason: string;
+  };
+}
+
+interface MuteData {
+  data: {
+    muted_by: number;
     member: number;
     reason: string;
   };

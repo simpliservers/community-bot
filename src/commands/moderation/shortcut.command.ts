@@ -1,9 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Shortcut from '../../api/shortcuts';
-import { Logger } from 'tslog';
 import { shortcutsAction, displayShortcuts } from '../../utils/embeds';
-
-const log = new Logger();
 
 module.exports = {
   data: new SlashCommandBuilder()
