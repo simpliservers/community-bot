@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import axios from 'axios';
 import DeepL from '../../api/deepl';
 import { sendTranslatedEmbed } from '../../utils/embeds';
 

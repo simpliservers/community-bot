@@ -17,10 +17,12 @@ npm start
 - [ ] Moderation commands
 
   - [x] Ban
+  - [ ] Softban
   - [x] Kick
   - [x] Warn system
   - [ ] Mute
   - [x] User info
+  - [ ] Clear messages
 
 - [ ] Radio
 
@@ -38,3 +40,8 @@ npm start
 - [ ] Ticket system
 
 - [ ] Other misc commands
+
+  - [ ] Coinflip
+  - [ ] Memes (from Reddit)
+  - [ ] Random number
+  - [ ] Commands from old bot

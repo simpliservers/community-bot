@@ -22,13 +22,17 @@ function sendActionEmbed(
       field1 = 'Banned';
       field2 = 'Banned by';
       break;
+    case 'softban':
+      field1 = 'Softbanned';
+      field2 = 'Softbanned by';
+      break;
   }
 
   const actionEmbed = new MessageEmbed()
     .setColor('#3DBEEE')
     .addFields(
-      { name: field1, value: `<@${member}>`, inline: true },
-      { name: field2, value: `<@${moderator}>`, inline: true },
+      { name: field1, value: `<@${member}>`, inline: false },
+      { name: field2, value: `<@${moderator}>`, inline: false },
       { name: 'Reason', value: reason, inline: false },
     );
 

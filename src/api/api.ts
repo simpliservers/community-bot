@@ -48,6 +48,26 @@ export default class Member {
         banned_by,
         member,
         reason,
+        softban: false,
+      },
+    };
+
+    await axios.post(`${apiUrl}/bans`, data, config);
+  }
+
+  static async softban(bannedId: string, bannerId: string, reason: string) {
+    await checkForUser(bannedId);
+    await checkForUser(bannerId);
+
+    const banned_by: number = (await Member.get(bannerId)).id;
+    const member: number = (await Member.get(bannedId)).id;
+
+    const data: BanData = {
+      data: {
+        banned_by,
+        member,
+        reason,
+        softban: true,
       },
     };
 
@@ -126,6 +146,7 @@ interface BanData {
     banned_by: number;
     member: number;
     reason: string;
+    softban: boolean;
   };
 }
 

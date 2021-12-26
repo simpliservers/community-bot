@@ -3,6 +3,13 @@ import { Client, Collection, Intents, Interaction, Message } from 'discord.js';
 import { Logger } from 'tslog';
 import { readdirSyncRecursive } from './utils';
 import Member from './api/api';
+import { load } from 'js-yaml';
+import { readFileSync } from 'fs';
+import Shortcut from './api/shortcuts';
+import { displayShortcut } from './utils/embeds';
+
+// Load configurations
+const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
 // Load environment variables from .env file, where API keys and passwords are configured
 config();
@@ -12,6 +19,9 @@ const log = new Logger();
 
 // Get client token from .env file
 const clientToken: string = process.env.TOKEN || '';
+
+// Client prefix
+const prefix: string = conf.shortcutPrefix;
 
 // Initialize new Discord client
 const client: any = new Client({
@@ -37,8 +47,22 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message: any) => {
+  const args = message.content.slice(prefix.length).trim().split(' ');
+  const gotShortcut = args.shift().toLowerCase();
+
+  const shortcuts = await Shortcut.getAll();
+
   if (message.channel.type != 'GUILD_TEXT') return;
   if (message.author.id == client.user.id) return;
+
+  shortcuts.forEach((shortcut: any) => {
+    if (shortcut.attributes.name == gotShortcut) {
+      message.channel.send({
+        embeds: [displayShortcut(shortcut.attributes.content)],
+      });
+    }
+  });
+
   await Member.logMessage(
     message.author.id,
     message.channel.name,
