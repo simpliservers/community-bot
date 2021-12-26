@@ -17,7 +17,7 @@ npm start
 - [ ] Moderation commands
 
   - [x] Ban
-  - [ ] Softban
+  - [x] Softban
   - [x] Kick
   - [x] Warn system
   - [ ] Mute
@@ -29,7 +29,7 @@ npm start
   - Plays playlist from YT. Mutes when no one is in VC.
     Admin can set playlist.
 
-- [ ] Shortcut system
+- [x] Shortcut system
 
 - [x] Logging system
 
