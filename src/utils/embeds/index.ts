@@ -4,3 +4,4 @@ export { default as sendTranslatedEmbed } from './translated.embed';
 export { shortcutsAction } from './shortcuts.embed';
 export { displayShortcuts } from './shortcuts.embed';
 export { displayShortcut } from './shortcuts.embed';
+export { default as sendClearEmbed } from './clear.embed';

@@ -22,7 +22,7 @@ npm start
   - [x] Warn system
   - [ ] Mute
   - [x] User info
-  - [ ] Clear messages
+  - [x] Clear messages
 
 - [ ] Radio
 
@@ -38,6 +38,7 @@ npm start
 - [x] Translator
 
 - [ ] Ticket system
+- [ ] Leveling system
 
 - [ ] Other misc commands
 

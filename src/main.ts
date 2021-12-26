@@ -73,6 +73,7 @@ client.on('messageCreate', async (message: any) => {
 
 client.on('interactionCreate', async (interaction: Interaction) => {
   if (!interaction.isCommand()) return;
+  if (interaction.channel!.type != 'GUILD_TEXT') return;
 
   const command = client.commands.get(interaction.commandName);
 
