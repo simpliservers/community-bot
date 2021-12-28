@@ -20,7 +20,8 @@ function sendMuteAction(
   const actionEmbed = new MessageEmbed()
     .setColor('#3DBEEE')
     .addField('New mute', actionType, false)
-    .addField('Reason', `${reason}`, false);
+    .addField('Reason', `${reason}`, false)
+    .setTimestamp();
 
   return actionEmbed;
 }

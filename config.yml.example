@@ -27,3 +27,6 @@ ticketParent: ''
 ticketCategory: ''
 ticketLogs: ''
 supportRole: ''
+
+# Suggestions
+suggestionChannel: ''

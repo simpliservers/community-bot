@@ -12,7 +12,8 @@ export function sendResult(result: number) {
   }
   const headsEmbed = new MessageEmbed()
     .setColor('#3DBEEE')
-    .setDescription(`You flipped ${text}!`);
+    .setDescription(`You flipped ${text}!`)
+    .setTimestamp();
 
   return headsEmbed;
 }

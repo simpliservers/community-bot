@@ -11,7 +11,8 @@ function sendImageResult(
     .setImage(image)
     .setColor('#3DBEEE')
     .setDescription(`[${title}](${link})`)
-    .setURL(`https://reddit.com/${subRedditName}`);
+    .setURL(`https://reddit.com/${subRedditName}`)
+    .setTimestamp();
 
   return imageEmbed;
 }

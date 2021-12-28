@@ -34,7 +34,8 @@ function sendActionEmbed(
       { name: field1, value: `<@${member}>`, inline: false },
       { name: field2, value: `<@${moderator}>`, inline: false },
       { name: 'Reason', value: reason, inline: false },
-    );
+    )
+    .setTimestamp();
 
   return actionEmbed;
 }

@@ -27,7 +27,8 @@ export function shortcutsAction(name: string, content: string, action: string) {
     .addFields(
       { name: 'Name', value: `${conf.shortcutPrefix}${name}` },
       { name: 'Content', value: content },
-    );
+    )
+    .setTimestamp();
 
   return shortcutsEmbed;
 }
@@ -37,7 +38,8 @@ export async function displayShortcuts() {
 
   const shortcutsEmbed = new MessageEmbed()
     .setColor('#3DBEEE')
-    .setTitle('Shortcuts');
+    .setTitle('Shortcuts')
+    .setTimestamp();
 
   shortcuts.forEach((shortcut: any) => {
     shortcutsEmbed.addField(
@@ -53,7 +55,8 @@ export async function displayShortcuts() {
 export function displayShortcut(content: string) {
   const shortcutsEmbed = new MessageEmbed()
     .setColor('#3DBEEE')
-    .setDescription(`${content}`);
+    .setDescription(`${content}`)
+    .setTimestamp();
 
   return shortcutsEmbed;
 }

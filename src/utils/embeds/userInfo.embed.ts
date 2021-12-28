@@ -18,7 +18,8 @@ function sendInfoEmbed(member: any) {
           .join('\n')}`,
         inline: false,
       },
-    );
+    )
+    .setTimestamp();
 
   return warningEmbed;
 }

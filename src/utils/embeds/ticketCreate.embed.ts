@@ -4,7 +4,8 @@ export function openTicketEmbed() {
   const embed = new MessageEmbed()
     .setColor('#3DBEEE')
     .setAuthor('Open ticket!')
-    .setDescription('Click on the button below to open a ticket');
+    .setDescription('Click on the button below to open a ticket')
+    .setTimestamp();
 
   return embed;
 }
