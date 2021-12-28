@@ -41,7 +41,7 @@ npm start
 
 - [ ] Leveling system
 
-- [ ] Suggestions system
+- [x] Suggestions system
 
 - [x] Other misc commands
 
