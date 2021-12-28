@@ -37,7 +37,14 @@ npm start
 
 - [x] Translator
 
+  - [ ] Must specify **from** language
+
 - [x] Ticket system
+
+  - [ ] Only admin can close
+  - [ ] Add users to ticket
+  - [ ] Remove users from ticket
+  - [ ] Rename ticket
 
 - [ ] Leveling system
 
@@ -48,3 +55,5 @@ npm start
   - [x] Coinflip
   - [x] Memes (from Reddit)
   - [x] Random number
+  - [ ] Reaction roles
+  - [ ] Message embedder (bot can send embedded messages via your commands)
