@@ -37,8 +37,11 @@ npm start
 
 - [x] Translator
 
-- [ ] Ticket system
+- [x] Ticket system
+
 - [ ] Leveling system
+
+- [ ] Suggestions system
 
 - [x] Other misc commands
 

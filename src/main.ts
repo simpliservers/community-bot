@@ -7,6 +7,7 @@ import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import Shortcut from './api/shortcuts';
 import { displayShortcut } from './utils/embeds';
+import { Ticket } from './commands/ticketing';
 
 // Load configurations
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
@@ -29,6 +30,14 @@ const client: any = new Client({
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_BANS,
+    Intents.FLAGS.GUILD_INTEGRATIONS,
+    Intents.FLAGS.GUILD_WEBHOOKS,
+    Intents.FLAGS.GUILD_INVITES,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+    Intents.FLAGS.GUILD_PRESENCES,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_MESSAGE_TYPING,
   ],
 });
 
@@ -72,6 +81,16 @@ client.on('messageCreate', async (message: any) => {
 });
 
 client.on('interactionCreate', async (interaction: Interaction) => {
+  if (interaction.isButton()) {
+    if (interaction.customId === 'open-ticket') {
+      await Ticket.ticketEvent(interaction);
+    } else if (interaction.customId === 'close-ticket') {
+      await Ticket.closeTicket(interaction);
+    } else if (interaction.customId === 'delete-ticket') {
+      await Ticket.deleteTicket(interaction);
+    }
+  }
+
   if (!interaction.isCommand()) return;
   if (interaction.channel!.type != 'GUILD_TEXT') return;
 

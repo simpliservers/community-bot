@@ -21,3 +21,9 @@ shortcutPrefix: '.'
 
 # Meme subreddits
 subreddits: ['', '']
+
+# Tickets
+ticketParent: ''
+ticketCategory: ''
+ticketLogs: ''
+supportRole: ''
