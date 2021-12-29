@@ -82,12 +82,16 @@ client.on('messageCreate', async (message: any) => {
 
 client.on('interactionCreate', async (interaction: Interaction) => {
   if (interaction.isButton()) {
-    if (interaction.customId === 'open-ticket') {
-      await Ticket.ticketEvent(interaction);
-    } else if (interaction.customId === 'close-ticket') {
-      await Ticket.closeTicket(interaction);
-    } else if (interaction.customId === 'delete-ticket') {
-      await Ticket.deleteTicket(interaction);
+    switch (interaction.customId) {
+      case 'open-ticket':
+        await Ticket.ticketEvent(interaction);
+        break;
+      case 'close-ticket':
+        await Ticket.closeTicket(interaction);
+        break;
+      case 'delete-ticket':
+        await Ticket.deleteTicket(interaction);
+        break;
     }
   }
 
