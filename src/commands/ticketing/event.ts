@@ -53,7 +53,7 @@ export default class Ticket {
         const embed = new MessageEmbed()
           .setColor('#3DBEEE')
           .setAuthor('Ticket')
-          .setDescription(`<@!${interaction.user.id}> created a ticket.`)
+          .setDescription(`<@${interaction.user.id}> created a ticket.`)
           .setTimestamp();
 
         const row = new MessageActionRow().addComponents(
@@ -65,7 +65,7 @@ export default class Ticket {
         );
 
         const opened = await c.send({
-          content: `<@&${conf.supportRole}>`,
+          content: `<@${interaction.user.id}> <@&${conf.supportRole}>`,
           embeds: [embed],
           components: [row],
         });
@@ -78,7 +78,12 @@ export default class Ticket {
 
   static async closeTicket(interaction: any) {
     const chan = interaction.channel;
-    const userID = chan.topic.split('-')[0];
+    const userID = await chan.messages.fetchPinned().then((messages: any) => {
+      const first = messages.first();
+      return first.mentions.users.first().id;
+    });
+
+    console.log(userID);
 
     const row = new MessageActionRow().addComponents(
       new MessageButton()

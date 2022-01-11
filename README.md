@@ -43,7 +43,7 @@ npm start
 
   - [x] Add users to ticket
   - [x] Remove users from ticket
-  - [ ] Rename ticket
+  - [x] Rename ticket
 
 - [ ] Leveling system
 
