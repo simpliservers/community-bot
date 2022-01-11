@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { Interaction } from 'discord.js';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
 import Suggestion from '../../api/suggestions';
@@ -11,10 +12,17 @@ module.exports = {
     .setName('suggestion')
     .setDescription('Submit a suggestion.')
     .addStringOption((option) =>
-      option.setName('content').setDescription('The suggestion.'),
+      option
+        .setName('content')
+        .setDescription('The suggestion.')
+        .setRequired(true),
     ),
-  async execute(interaction: any) {
-    const content: string = await interaction.options.getString('content');
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+    if (interaction.channel!.type != 'GUILD_TEXT') return;
+
+    const content: string =
+      (await interaction.options.getString('content')) || ' ';
 
     if (interaction.channelId !== conf.suggestionChannel) {
       interaction.reply({

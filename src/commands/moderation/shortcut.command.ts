@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { Interaction } from 'discord.js';
 import Shortcut from '../../api/shortcuts';
 import { shortcutsAction, displayShortcuts } from '../../utils/embeds';
 
@@ -12,18 +13,34 @@ module.exports = {
         .setDescription('What to do with the shortcut.')
         .addChoice('create', 'create')
         .addChoice('delete', 'delete')
-        .addChoice('show', 'show'),
+        .addChoice('show', 'show')
+        .setRequired(true),
     )
     .addStringOption((option: any) =>
-      option.setName('name').setDescription('The name of the shortcut.'),
+      option
+        .setName('name')
+        .setDescription('The name of the shortcut.')
+        .setRequired(true),
     )
     .addStringOption((option: any) =>
-      option.setName('content').setDescription('The conntent of the shortcut.'),
+      option
+        .setName('content')
+        .setDescription('The conntent of the shortcut.')
+        .setRequired(true),
     ),
-  async execute(interaction: any) {
-    const action: string = await interaction.options.getString('action');
-    const name: string = await interaction.options.getString('name');
-    const content: string = await interaction.options.getString('content');
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+    if (interaction.channel!.type != 'GUILD_TEXT') return;
+    if (!interaction.guild) throw new Error('No guild found.');
+
+    const action: string | null = await interaction.options.getString('action');
+    const name: string | null = await interaction.options.getString('name');
+    const content: string | null = await interaction.options.getString(
+      'content',
+    );
+
+    if (!action || !name || !content)
+      throw new Error('Missing required fields.');
 
     switch (action) {
       case 'create':

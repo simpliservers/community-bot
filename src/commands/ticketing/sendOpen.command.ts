@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { Interaction } from 'discord.js';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
 import { checkUserPermissions } from '../../utils';
@@ -10,7 +11,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('sendopenticket')
     .setDescription('Sends the ticket opening embed.'),
-  async execute(interaction: any) {
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+    if (interaction.channel!.type != 'GUILD_TEXT') return;
+    if (!interaction.guild) throw new Error('No guild found.');
+
     const channel: any = await interaction.guild.channels.cache.get(
       conf.ticketParent,
     );

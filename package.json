@@ -4,8 +4,10 @@
   "description": "Discord bot for the SimpliServers community server",
   "main": "src/main.ts",
   "scripts": {
-    "start": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
-    "dev": "nodemon --exec \"npm start\"",
+    "start": "npx ts-node src/main.ts",
+    "commands": "npx ts-node src/deploy-commands.ts",
+    "develop": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
+    "dev": "nodemon -e ts --exec \"npm run develop\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

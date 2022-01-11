@@ -5,6 +5,7 @@ import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import { Logger } from 'tslog';
 import Member from '../../api/api';
+import { Interaction } from 'discord.js';
 
 const log = new Logger();
 
@@ -15,30 +16,40 @@ module.exports = {
     .setName('mute')
     .setDescription('Mutes a person.')
     .addUserOption((option) =>
-      option.setName('user').setDescription('The user to mute.'),
+      option
+        .setName('user')
+        .setDescription('The user to mute.')
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option.setName('reason').setDescription('The reason for the mute.'),
     ),
-  async execute(interaction: any) {
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+    if (interaction.channel!.type != 'GUILD_TEXT') return;
+    if (!interaction.guild) throw new Error('No guild found.');
+
     const user = await interaction.options.getUser('user');
-    const reason: string = await interaction.options.getString('reason');
+    const reason: string =
+      (await interaction.options.getString('reason')) || 'No reason given.';
 
     const member = await interaction.guild.members.fetch(interaction.user.id);
-    const muted = await interaction.guild.members.fetch(user.id);
+    const muted = await interaction.guild.members.fetch(user!.id);
 
     const role = interaction.guild.roles.cache.find(
       (r: any) => r.id === `${conf.muteRole}`,
     );
 
+    if (!role) throw new Error('No mute role found.');
+
     if (checkUserPermissions(member)) {
       muted.roles
         .add(role)
         .then(async () => {
-          await Member.mute(user.id, interaction.user.id, reason);
+          await Member.mute(user!.id, interaction.user.id, reason);
           await interaction.reply({
             embeds: [
-              sendMuteAction(user.id, interaction.user.id, reason, 'mute'),
+              sendMuteAction(user!.id, interaction.user.id, reason, 'mute'),
             ],
           });
         })

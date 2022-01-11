@@ -41,9 +41,8 @@ npm start
 
 - [x] Ticket system
 
-  - [ ] Only admin can close
-  - [ ] Add users to ticket
-  - [ ] Remove users from ticket
+  - [x] Add users to ticket
+  - [x] Remove users from ticket
   - [ ] Rename ticket
 
 - [ ] Leveling system
