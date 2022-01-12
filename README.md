@@ -37,7 +37,7 @@ npm start
 
 - [x] Translator
 
-  - [ ] Must specify **from** language
+  - [x] Must specify **from** language
 
 - [x] Ticket system
 
