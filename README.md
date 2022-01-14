@@ -55,4 +55,4 @@ npm start
   - [x] Memes (from Reddit)
   - [x] Random number
   - [ ] Reaction roles
-  - [ ] Message embedder (bot can send embedded messages via your commands)
+  - [x] Message embedder (bot can send embedded messages via your commands)

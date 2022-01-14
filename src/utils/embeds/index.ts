@@ -13,3 +13,4 @@ export { default as sendImageResult } from './meme.embed';
 export { default as sendRandom } from './random.embed';
 export { openTicketEmbed, openTicketRow } from './ticketCreate.embed';
 export { default as sendSuggestionEmbed } from './suggestion.embed';
+export { default as sendContent } from './contentSend.embed';
