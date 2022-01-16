@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { Interaction } from 'discord.js';
 import { sendRandom } from '../../utils/embeds';
 
 module.exports = {
@@ -11,7 +12,9 @@ module.exports = {
     .addNumberOption((option) =>
       option.setName('max').setDescription('Maximum value.'),
     ),
-  async execute(interaction: any) {
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+
     let min: number = (await interaction.options.getNumber('min')) || 0;
     let max: number = (await interaction.options.getNumber('max')) || 100;
 

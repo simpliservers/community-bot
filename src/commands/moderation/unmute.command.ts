@@ -22,12 +22,29 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw new Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
 
     const user = await interaction.options.getUser('user');
 
-    if (!user) throw new Error('No target user found.');
+    if (!user)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
 
     const member = await interaction.guild.members.fetch(interaction.user.id);
     const muted = await interaction.guild.members.fetch(user.id);
@@ -36,7 +53,11 @@ module.exports = {
       (r: any) => r.id === `${conf.muteRole}`,
     );
 
-    if (!role) throw new Error('No mute role found.');
+    if (!role)
+      return interaction.reply({
+        content: 'No mute role found.',
+        ephemeral: true,
+      });
 
     if (checkUserPermissions(member) && role) {
       muted.roles

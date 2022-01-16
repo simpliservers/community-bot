@@ -30,8 +30,21 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw new Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
 
     const action: string | null = await interaction.options.getString('action');
     const name: string | null = await interaction.options.getString('name');
@@ -40,7 +53,10 @@ module.exports = {
     );
 
     if (!action || !name || !content)
-      throw new Error('Missing required fields.');
+      return interaction.reply({
+        content: 'Missing required fields.',
+        ephemeral: true,
+      });
 
     switch (action) {
       case 'create':

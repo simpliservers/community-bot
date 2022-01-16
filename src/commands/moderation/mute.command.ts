@@ -27,7 +27,11 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
     if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw new Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
 
     const user = await interaction.options.getUser('user');
     const reason: string =
@@ -40,7 +44,11 @@ module.exports = {
       (r: any) => r.id === `${conf.muteRole}`,
     );
 
-    if (!role) throw new Error('No mute role found.');
+    if (!role)
+      return interaction.reply({
+        content: 'No mute role found.',
+        ephemeral: true,
+      });
 
     if (checkUserPermissions(member)) {
       muted.roles

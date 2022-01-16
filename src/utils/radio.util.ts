@@ -23,7 +23,7 @@ export default class Radio {
       conf.radioChannelID,
     );
 
-    if (!channel.members) throw new Error('No members in the vc.');
+    if (!channel.members) return log.error('No members in the vc.');
 
     let botInside = false;
 
@@ -54,7 +54,7 @@ export default class Radio {
 
     if (playlist === null) return log.error("Playlist wasn't provided");
 
-    if (!channel) throw new Error('No voice channel found.');
+    if (!channel) return log.error('No voice channel found.');
 
     await queue.join(channel);
     log.info('Joined channel.');
@@ -76,7 +76,11 @@ export default class Radio {
     log.info('Setting new playlist');
 
     if (!interaction.isCommand()) return;
-    if (!interaction.guild) throw new Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
 
     const queue: Queue = client.player.createQueue(interaction.guildId);
     const guildQueue: Queue = client.player.getQueue(interaction.guildId);
@@ -85,7 +89,11 @@ export default class Radio {
       interaction.user.id,
     );
 
-    if (!member) throw new Error('No member found.');
+    if (!member)
+      return interaction.reply({
+        content: 'No member found.',
+        ephemeral: true,
+      });
 
     if (!checkUserPermissions(member))
       return interaction.reply({
@@ -103,7 +111,11 @@ export default class Radio {
       conf.radioChannelID,
     );
 
-    if (!voiceChannel) throw new Error('No voice channel found.');
+    if (!voiceChannel)
+      return interaction.reply({
+        content: 'No voice channel found.',
+        ephemeral: true,
+      });
 
     await queue.join(voiceChannel);
 

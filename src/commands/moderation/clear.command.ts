@@ -17,9 +17,21 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (!interaction.guild) throw new Error('No guild found.');
-    if (!interaction.channel) throw new Error('No channel found.');
-    if (interaction.channel.type != 'GUILD_TEXT') return;
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
 
     const count: number = (await interaction.options.getNumber('count')) || 5;
 

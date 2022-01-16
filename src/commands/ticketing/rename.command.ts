@@ -18,8 +18,21 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw new Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
 
     const executer = await interaction.guild.members.fetch(interaction.user.id);
 
@@ -42,7 +55,10 @@ module.exports = {
         });
       });
     } else {
-      throw new Error("This channel isn't a ticket.");
+      return interaction.reply({
+        content: "This channel isn't a ticket.",
+        ephemeral: true,
+      });
     }
   },
 };

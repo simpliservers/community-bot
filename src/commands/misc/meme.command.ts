@@ -3,6 +3,7 @@ import { sendImageResult } from '../../utils/embeds';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import https from 'https';
+import { Interaction } from 'discord.js';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
@@ -12,7 +13,9 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('meme')
     .setDescription("Sends memes. That's it..."),
-  async execute(interaction: any) {
+  async execute(interaction: Interaction) {
+    if (!interaction.isCommand()) return;
+
     const subreddit = `${
       subreddits[Math.floor(Math.random() * subreddits.length)]
     }hot/.json?limit=100`;

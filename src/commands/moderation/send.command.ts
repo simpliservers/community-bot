@@ -25,17 +25,41 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw Error('No guild found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
 
     const content = await interaction.options.getString('content');
     const title = await interaction.options.getString('title');
     const channelData = await interaction.options.getChannel('channel');
 
-    if (!content) throw Error('No content found.');
-    if (!channelData) throw Error('No channel found.');
+    if (!content)
+      return interaction.reply({
+        content: 'No content found.',
+        ephemeral: true,
+      });
+    if (!channelData)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
     if (!content.startsWith('https://www.toptal.com/developers/hastebin/raw/'))
-      throw Error('Invalid content.');
+      return interaction.reply({
+        content: 'Invalid content.',
+        ephemeral: true,
+      });
 
     const text: string = (await axios.get(content)).data;
 
@@ -43,7 +67,10 @@ module.exports = {
     const channel = await interaction.guild.channels.fetch(channelData.id);
 
     if (!(channel && channel.type === 'GUILD_TEXT'))
-      throw Error('Invalid channel.');
+      return interaction.reply({
+        content: 'Invalid channel.',
+        ephemeral: true,
+      });
 
     if (checkUserPermissions(member)) {
       channel.send({

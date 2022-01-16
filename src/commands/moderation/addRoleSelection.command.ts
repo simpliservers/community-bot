@@ -27,8 +27,16 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
     if (interaction.channel!.type != 'GUILD_TEXT') return;
-    if (!interaction.guild) throw new Error('No guild found.');
-    if (!interaction.channel) throw new Error('No channel found.');
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
 
     const member = await interaction.guild.members.fetch(interaction.user.id);
 
@@ -41,16 +49,26 @@ module.exports = {
     const role = await interaction.options.getRole('role');
     const messageId = await interaction.options.getString('message-id');
 
-    if (!role || !messageId) throw new Error('Missing required fields.');
+    if (!role || !messageId)
+      return interaction.reply({
+        content: 'Missing required fields.',
+        ephemeral: true,
+      });
 
     const targetMessage = await interaction.channel.messages.fetch(messageId);
 
-    if (!targetMessage) throw new Error('Message not found.');
+    if (!targetMessage)
+      return interaction.reply({
+        content: 'Message not found.',
+        ephemeral: true,
+      });
 
     if (targetMessage.author.id !== client.user?.id)
-      throw new Error(
-        "The message you are trying to append the role (selection) to, wasn't sent by the bot.",
-      );
+      return interaction.reply({
+        content:
+          "The message you are trying to append the role (selection) to, wasn't sent by the bot.",
+        ephemeral: true,
+      });
 
     let row: MessageActionRow = targetMessage.components[0] as MessageActionRow;
     if (!row) row = new MessageActionRow();
