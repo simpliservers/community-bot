@@ -34,6 +34,8 @@ module.exports = {
 
     if (!content) throw Error('No content found.');
     if (!channelData) throw Error('No channel found.');
+    if (!content.startsWith('https://www.toptal.com/developers/hastebin/raw/'))
+      throw Error('Invalid content.');
 
     const text: string = (await axios.get(content)).data;
 
@@ -49,6 +51,7 @@ module.exports = {
       });
       interaction.reply({
         content: `Message sent to <#${channel.id}>`,
+        ephemeral: true,
       });
     } else {
       interaction.reply({

@@ -54,5 +54,5 @@ npm start
   - [x] Coinflip
   - [x] Memes (from Reddit)
   - [x] Random number
-  - [ ] Reaction roles
+  - [x] Reaction roles
   - [x] Message embedder (bot can send embedded messages via your commands)

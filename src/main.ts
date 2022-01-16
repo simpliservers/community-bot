@@ -1,5 +1,13 @@
 import { config } from 'dotenv';
-import { Client, Collection, Intents, Interaction, Message } from 'discord.js';
+import {
+  Client,
+  Collection,
+  GuildMember,
+  Intents,
+  Interaction,
+  Message,
+  MessageSelectMenu,
+} from 'discord.js';
 import { Logger } from 'tslog';
 import { readdirSyncRecursive } from './utils';
 import Member from './api/api';
@@ -92,6 +100,33 @@ client.on('interactionCreate', async (interaction: Interaction) => {
       case 'delete-ticket':
         await Ticket.deleteTicket(interaction);
         break;
+    }
+  }
+
+  if (interaction.isSelectMenu()) {
+    const { values, member } = interaction;
+
+    if (
+      interaction.customId === 'role-selection' &&
+      member instanceof GuildMember
+    ) {
+      const component = interaction.component as MessageSelectMenu;
+      const removed = component.options.filter((option) => {
+        return !values.includes(option.value);
+      });
+
+      removed.forEach((id) => {
+        member.roles.remove(id.value);
+      });
+
+      values.forEach((id: string) => {
+        member.roles.add(id);
+      });
+
+      interaction.reply({
+        content: 'Roles updated!',
+        ephemeral: true,
+      });
     }
   }
 
