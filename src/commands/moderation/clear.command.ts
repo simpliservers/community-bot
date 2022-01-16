@@ -13,7 +13,8 @@ module.exports = {
     .addNumberOption((option) =>
       option
         .setName('count')
-        .setDescription('The amount of messages to delete.'),
+        .setDescription('The amount of messages to delete.')
+        .setRequired(true),
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
@@ -33,7 +34,13 @@ module.exports = {
         ephemeral: true,
       });
 
-    const count: number = (await interaction.options.getNumber('count')) || 5;
+    const count = await interaction.options.getNumber('count');
+
+    if (!count)
+      return interaction.reply({
+        content: 'No count found.',
+        ephemeral: true,
+      });
 
     const member = await interaction.guild.members.fetch(interaction.user.id);
 

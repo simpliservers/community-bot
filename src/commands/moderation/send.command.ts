@@ -55,7 +55,7 @@ module.exports = {
         content: 'No channel found.',
         ephemeral: true,
       });
-    if (!content.startsWith('https://www.toptal.com/developers/hastebin/raw/'))
+    if (!content.startsWith('https://paste.simpliservers.com/raw/'))
       return interaction.reply({
         content: 'Invalid content.',
         ephemeral: true,
