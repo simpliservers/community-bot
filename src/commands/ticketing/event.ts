@@ -1,4 +1,13 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import {
+  CategoryChannel,
+  GuildMember,
+  Interaction,
+  MessageActionRow,
+  MessageButton,
+  MessageEmbed,
+  Role,
+  TextChannel,
+} from 'discord.js';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
 import hastebin from 'hastebin';
@@ -9,9 +18,7 @@ export default class Ticket {
   static async ticketEvent(interaction: any) {
     if (
       interaction.guild.channels.cache.find(
-        (c: any) =>
-          c.topic ==
-          `ticket-${interaction.user.username}-${interaction.user.id}`,
+        (c: any) => c.topic == `ticket-${interaction.user.id}`,
       )
     ) {
       return interaction.reply({
@@ -21,7 +28,7 @@ export default class Ticket {
     }
 
     interaction.guild.channels
-      .create(`ticket-${interaction.user.username}-${interaction.user.id}`, {
+      .create(`ticket-${interaction.user.id}`, {
         parent: conf.ticketCategory,
         topic: interaction.user.id,
         permissionOverwrites: [
@@ -76,8 +83,23 @@ export default class Ticket {
       });
   }
 
-  static async closeTicket(interaction: any) {
-    const chan = interaction.channel;
+  static async closeTicket(interaction: Interaction) {
+    if (!interaction.isButton()) return;
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found',
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found',
+      });
+    if (interaction.channel.type != 'GUILD_TEXT')
+      return interaction.reply({
+        content: "You can't do this here.",
+        ephemeral: true,
+      });
+
+    const chan: TextChannel = interaction.channel;
     const userID = await chan.messages.fetchPinned().then((messages: any) => {
       const first = messages.first();
       return first.mentions.users.first().id;
@@ -118,15 +140,17 @@ export default class Ticket {
             name: `closed-${chan.name}`,
             permissionOverwrites: [
               {
-                id: interaction.guild.members.cache.get(userID),
+                id: interaction.guild!.members.cache.get(userID) as GuildMember,
                 deny: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
               },
               {
-                id: interaction.guild.roles.cache.get(conf.supportRole),
+                id: interaction.guild!.roles.cache.get(
+                  conf.supportRole,
+                ) as Role,
                 allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
               },
               {
-                id: interaction.guild.roles.everyone,
+                id: interaction.guild!.roles.everyone,
                 deny: ['VIEW_CHANNEL'],
               },
             ],
@@ -145,6 +169,13 @@ export default class Ticket {
                 .setEmoji('🗑️')
                 .setStyle('DANGER'),
             );
+
+            const channel: CategoryChannel =
+              (await interaction.guild!.channels.fetch(
+                conf.closedTicketCategory,
+              )) as CategoryChannel;
+
+            chan.setParent(channel);
 
             chan.send({
               embeds: [embed],

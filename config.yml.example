@@ -30,6 +30,7 @@ subreddits: ['', ''] # URL's of the subreddits from which the memes will be take
 # Tickets
 ticketParent: '' #  ID of the channel in which the message to open a ticket will be
 ticketCategory: '' # ID of the category in which the tickets will spawn in
+closedTicketCategory: '' # ID of the category in which the closed tickets will spawn in
 ticketLogs: '' # ID of the channel where the logs will be sent to
 supportRole: '' # ID of the support role; role that will by default be added to all tickets
 
