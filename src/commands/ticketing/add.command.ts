@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { Interaction } from 'discord.js';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
+import { checkUserPermissions } from '../../utils';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
@@ -19,6 +20,13 @@ module.exports = {
     if (!interaction.isCommand()) return;
     if (interaction.channel!.type != 'GUILD_TEXT') return;
     if (!interaction.guild) throw new Error('No guild found.');
+
+    const executer = await interaction.guild.members.fetch(interaction.user.id);
+
+    if (!checkUserPermissions(executer))
+      return interaction.reply({
+        content: `You're missing the permissions to do this.`,
+      });
 
     const channel: any = await interaction.guild.channels.cache.get(
       interaction.channelId,

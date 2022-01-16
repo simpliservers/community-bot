@@ -1,7 +1,7 @@
 # URL for the backend
 apiUrl: ''
 
-# API token
+# API token generated in the admin panel
 apiToken: ''
 
 # DeepL
@@ -24,13 +24,15 @@ muteRole: ''
 shortcutPrefix: '.'
 
 # Meme subreddits
-subreddits: ['', '']
+subreddits: ['', ''] # URL's of the subreddits from which the memes will be taken from
+
 
 # Tickets
-ticketParent: ''
-ticketCategory: ''
-ticketLogs: ''
-supportRole: ''
+ticketParent: '' #  ID of the channel in which the message to open a ticket will be
+ticketCategory: '' # ID of the category in which the tickets will spawn in
+ticketLogs: '' # ID of the channel where the logs will be sent to
+supportRole: '' # ID of the support role; role that will by default be added to all tickets
+
 
 # Suggestions
-suggestionChannel: ''
+suggestionChannel: '' # Channel in which the suggestions can be submitted
