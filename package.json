@@ -4,11 +4,10 @@
   "description": "Discord bot for the SimpliServers community server",
   "main": "src/main.ts",
   "scripts": {
-    "start": "npx ts-node src/main.ts",
-    "commands": "npx ts-node src/deploy-commands.ts",
-    "develop": "npx ts-node src/deploy-commands.ts && npx ts-node src/main",
-    "dev": "nodemon -e ts --exec \"npm run develop\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/main",
+    "commands": "ts-node src/deploy-commands.ts",
+    "deploy": "ts-node src/deploy-commands.ts && ts-node src/main",
+    "dev": "nodemon -e ts --exec \"npm run develop\""
   },
   "repository": {
     "type": "git",
@@ -30,7 +29,6 @@
     "fs": "^0.0.1-security",
     "hastebin": "^0.2.1",
     "js-yaml": "^4.1.0",
-    "sodium": "^3.0.2",
     "tslog": "^3.2.2",
     "ytdl-core": "^4.10.0"
   },
