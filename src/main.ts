@@ -7,6 +7,8 @@ import {
   Interaction,
   Message,
   MessageSelectMenu,
+  VoiceChannel,
+  VoiceState,
 } from 'discord.js';
 import { Logger } from 'tslog';
 import { readdirSyncRecursive } from './utils';
@@ -16,6 +18,9 @@ import { readFileSync } from 'fs';
 import Shortcut from './api/shortcuts';
 import { displayShortcut } from './utils/embeds';
 import { Ticket } from './commands/ticketing';
+import { Player, Queue } from 'discord-music-player';
+import Radio from './utils/radio.util';
+import { joinVoiceChannel } from '@discordjs/voice';
 
 // Load configurations
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
@@ -49,6 +54,18 @@ const client: any = new Client({
   ],
 });
 
+const player: Player = new Player(client, {
+  leaveOnEmpty: false,
+  deafenOnJoin: true,
+  leaveOnEnd: false,
+  leaveOnStop: true,
+  quality: 'high',
+  timeout: 0,
+  volume: 100,
+});
+
+client.player = player;
+
 client.commands = new Collection();
 const commandFiles: string[] = readdirSyncRecursive('./src/commands', '.ts');
 
@@ -58,9 +75,21 @@ commandFiles.forEach((file: string) => {
 });
 
 // On client ready, log to console
-client.once('ready', () => {
+client.once('ready', async () => {
   log.info('Ready!');
   client.user.setActivity('with your feelings.');
+
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = await guild.channels.fetch(conf.radioChannelID);
+
+  await Radio.defaultPlaylist(conf.defaultPlaylist, channel);
+});
+
+// Music controller
+// Stops playing music when there is no one in the voice channel
+// Resumes playing when someone joins the voice channel
+client.on('voiceStateUpdate', async () => {
+  await Radio.voiceStateHandler();
 });
 
 client.on('messageCreate', async (message: any) => {

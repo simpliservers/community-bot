@@ -12,6 +12,10 @@ deeplAuthKey: ''
 clientID: ''
 guildID: ''
 
+# Radio configuration
+radioChannelID: ''
+defaultPlaylist: 'https://www.youtube.com/playlist?list=PLjRMXh3blI8ifJZYJBmyRpcXHsZrXa4YM'
+
 # Moderation configuration
 modRole: ''
 muteRole: ''

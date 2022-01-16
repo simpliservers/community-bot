@@ -18,15 +18,21 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.8.2",
+    "@discordjs/opus": "^0.7.0",
     "@discordjs/rest": "^0.1.0-canary.0",
     "axios": "^0.24.0",
     "discord-api-types": "^0.24.0",
+    "discord-music-player": "^8.3.1",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
     "hastebin": "^0.2.1",
     "js-yaml": "^4.1.0",
-    "tslog": "^3.2.2"
+    "sodium": "^3.0.2",
+    "tslog": "^3.2.2",
+    "ytdl-core": "^4.10.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",

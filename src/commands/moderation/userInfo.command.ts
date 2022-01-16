@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Interaction } from 'discord.js';
-import Member from '../../api/api';
 import { checkUserPermissions } from '../../utils';
 import { sendInfoEmbed } from '../../utils/embeds';
 
