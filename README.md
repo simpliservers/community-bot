@@ -24,7 +24,7 @@ npm start
   - [x] User info
   - [x] Clear messages
 
-- [ ] Radio
+- [x] Radio
 
   - Plays playlist from YT. Mutes when no one is in VC.
     Admin can set playlist.
