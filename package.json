@@ -7,7 +7,7 @@
     "start": "ts-node src/main",
     "commands": "ts-node src/deploy-commands.ts",
     "deploy": "ts-node src/deploy-commands.ts && ts-node src/main",
-    "dev": "nodemon -e ts --exec \"npm run develop\""
+    "dev": "nodemon -e ts --exec \"npm run deploy\""
   },
   "repository": {
     "type": "git",
