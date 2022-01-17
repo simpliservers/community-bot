@@ -11,7 +11,7 @@ import {
   VoiceState,
 } from 'discord.js';
 import { Logger } from 'tslog';
-import { readdirSyncRecursive } from './utils';
+import { checkForUser, readdirSyncRecursive } from './utils';
 import Member from './api/api';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
@@ -83,6 +83,10 @@ client.once('ready', async () => {
   const channel = await guild.channels.fetch(conf.radioChannelID);
 
   await Radio.defaultPlaylist(conf.defaultPlaylist, channel);
+});
+
+client.on('guildMemberAdd', async (member: GuildMember) => {
+  await checkForUser(member.user.id);
 });
 
 // Music controller
