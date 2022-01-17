@@ -14,7 +14,7 @@ module.exports = {
     if (member.permissions.has('ADMIN')) {
       const members: any = await interaction.guild.members.fetch();
       members.forEach(async (member: any) => {
-        log.info(`${member.user.tag}: ${member.user.id}`);
+        log.info(`${member.user.tag} - ${member.user.id}`);
         await Member.create(member.user.tag, member.user.id);
       });
 
