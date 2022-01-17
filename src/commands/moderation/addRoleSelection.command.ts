@@ -20,6 +20,12 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
+        .setName('role-description')
+        .setDescription('Description of the role.')
+        .setRequired(true),
+    )
+    .addStringOption((option) =>
+      option
         .setName('message-id')
         .setDescription('ID of the message to add the role (selection) to.')
         .setRequired(true),
@@ -47,9 +53,12 @@ module.exports = {
       });
 
     const role = await interaction.options.getRole('role');
+    const roleDescription = await interaction.options.getString(
+      'role-description',
+    );
     const messageId = await interaction.options.getString('message-id');
 
-    if (!role || !messageId)
+    if (!role || !messageId || !roleDescription)
       return interaction.reply({
         content: 'Missing required fields.',
         ephemeral: true,
@@ -77,6 +86,7 @@ module.exports = {
       {
         label: role.name,
         value: role.id,
+        description: roleDescription,
       },
     ];
 
