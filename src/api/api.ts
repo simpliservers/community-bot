@@ -19,7 +19,6 @@ export default class Member {
   static async get(discordid: string) {
     log.info(`Creating member with discordid ${discordid}`);
 
-    await checkForUser(discordid);
     const res = await axios.get(`${apiUrl}/members/${discordid}`, config);
 
     return res.data.data;
