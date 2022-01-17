@@ -87,6 +87,14 @@ client.once('ready', async () => {
 
 client.on('guildMemberAdd', async (member: GuildMember) => {
   await checkForUser(member.user.id);
+
+  const defaultRoles: string[] = conf.defaultRoles;
+
+  if (!defaultRoles) return log.info('No default roles found.');
+
+  defaultRoles.forEach((roleID: string) => {
+    member.roles.add(roleID);
+  });
 });
 
 // Music controller

@@ -35,12 +35,17 @@ module.exports = {
     ),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    if (interaction.channel!.type != 'GUILD_TEXT') return;
     if (!interaction.guild)
       return interaction.reply({
         content: 'No guild found.',
         ephemeral: true,
       });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+    if (interaction.channel!.type != 'GUILD_TEXT') return;
 
     const text: string = (await interaction.options.getString('text')) || '';
     const fromLanguage: string =

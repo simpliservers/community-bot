@@ -4,6 +4,7 @@ import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import https from 'https';
 import { Interaction } from 'discord.js';
+import checkChannel from '../../utils/checkChannel.util';
 
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
 
@@ -15,6 +16,22 @@ module.exports = {
     .setDescription("Sends memes. That's it..."),
   async execute(interaction: Interaction) {
     if (!interaction.isCommand()) return;
+    if (!interaction.guild)
+      return interaction.reply({
+        content: 'No guild found.',
+        ephemeral: true,
+      });
+    if (!interaction.channel)
+      return interaction.reply({
+        content: 'No channel found.',
+        ephemeral: true,
+      });
+
+    if (checkChannel(interaction.channel))
+      return interaction.reply({
+        content: `You can't execute commands here, try <#${conf.commandsChannel}> instead.`,
+        ephemeral: true,
+      });
 
     const subreddit = `${
       subreddits[Math.floor(Math.random() * subreddits.length)]

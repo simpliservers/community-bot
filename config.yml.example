@@ -19,6 +19,7 @@ defaultPlaylist: 'https://www.youtube.com/playlist?list=PLjRMXh3blI8ifJZYJBmyRpc
 # Moderation configuration
 modRole: ''
 muteRole: ''
+commandsChannel: ''
 
 # Shortcuts prefix
 shortcutPrefix: '.'
@@ -37,3 +38,6 @@ supportRole: '' # ID of the support role; role that will by default be added to 
 
 # Suggestions
 suggestionChannel: '' # Channel in which the suggestions can be submitted
+
+# Default roles
+defaultRoles: ['', ''] # IDs of the default roles that will be added to the user when they join the server
