@@ -17,6 +17,7 @@ const config = {
 
 export default class Member {
   static async get(discordid: string) {
+    await checkForUser(discordid);
     const res = await axios.get(`${apiUrl}/members/${discordid}`, config);
 
     return res.data.data;
@@ -33,6 +34,8 @@ export default class Member {
     const member: number = (await Member.get(discordid)).id;
 
     if (member) return;
+
+    log.info(`Creating member ${username} with discordid ${discordid}`);
     await axios.post(`${apiUrl}/members`, data, config);
   }
 
