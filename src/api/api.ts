@@ -24,6 +24,8 @@ export default class Member {
   }
 
   static async create(username: string, discordid: string) {
+    log.info(`Creating member ${username} with discordid ${discordid}`);
+
     const data: MemberData = {
       data: {
         username,
@@ -31,11 +33,10 @@ export default class Member {
       },
     };
 
-    const member: number = (await Member.get(discordid)).id;
+    const member: number = await Member.get(discordid);
 
-    if (member) return;
+    if (member) return log.info('Member already exists');
 
-    log.info(`Creating member ${username} with discordid ${discordid}`);
     await axios.post(`${apiUrl}/members`, data, config);
   }
 
