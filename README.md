@@ -12,6 +12,37 @@ npm install
 npm start
 ```
 
+## Docker
+
+### Building
+
+```bash
+docker build -t community-bot .
+```
+
+### Running with docker
+
+```bash
+docker run \
+  -v $(PWD)/config.yml:/app/config.yml \
+  --env-file .env \
+  community-bot
+```
+
+### Running with docker compose
+
+```yml
+version: '3.9'
+
+services:
+  community-bot:
+    build: .
+    env_file: .env
+    volumes:
+      - config.yml:/app/config.yml
+    container_name: community-bot
+```
+
 ## To-Do
 
 - [x] Moderation commands
