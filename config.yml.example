@@ -20,6 +20,7 @@ defaultPlaylist: 'https://www.youtube.com/playlist?list=PLjRMXh3blI8ifJZYJBmyRpc
 modRole: ''
 muteRole: ''
 commandsChannel: ''
+logChannel: '' # Every time a message is edited or deleted, it will send the message to this channel
 
 # Shortcuts prefix
 shortcutPrefix: '.'

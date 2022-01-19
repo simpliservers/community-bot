@@ -7,20 +7,26 @@ import {
   Interaction,
   Message,
   MessageSelectMenu,
+  Role,
+  TextChannel,
   VoiceChannel,
-  VoiceState,
 } from 'discord.js';
 import { Logger } from 'tslog';
 import { checkForUser, readdirSyncRecursive } from './utils';
-import Member from './api/api';
 import { load } from 'js-yaml';
 import { readFileSync } from 'fs';
 import Shortcut from './api/shortcuts';
-import { displayShortcut } from './utils/embeds';
+import {
+  displayShortcut,
+  memberLeftEmbed,
+  sendDeletedMessageEmbed,
+  sendEditedMessageEmbed,
+  sendModifedChannel,
+  sendRoleEventEmbed,
+} from './utils/embeds';
 import { Ticket } from './commands/ticketing';
-import { Player, Queue } from 'discord-music-player';
+import { Player } from 'discord-music-player';
 import Radio from './utils/radio.util';
-import { joinVoiceChannel } from '@discordjs/voice';
 
 // Load configurations
 const conf: any = load(readFileSync('./config.yml', 'utf8'));
@@ -97,6 +103,92 @@ client.on('guildMemberAdd', async (member: GuildMember) => {
   });
 });
 
+client.on('messageUpdate', async (oldMessage: Message, newMessage: Message) => {
+  if (newMessage.channel.type !== 'GUILD_TEXT') return;
+
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = (await guild.channels.fetch(conf.logChannel)) as TextChannel;
+
+  channel.send({
+    embeds: [
+      sendEditedMessageEmbed(
+        oldMessage.author,
+        oldMessage.content,
+        newMessage.content,
+        newMessage.channel as TextChannel,
+        conf.guildID,
+        oldMessage.id,
+      ),
+    ],
+  });
+});
+
+client.on('messageDelete', async (message: Message) => {
+  if (message.channel.type !== 'GUILD_TEXT') return;
+
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = (await guild.channels.fetch(conf.logChannel)) as TextChannel;
+
+  channel.send({
+    embeds: [
+      sendDeletedMessageEmbed(
+        message.author,
+        message.content,
+        message.channel as TextChannel,
+      ),
+    ],
+  });
+});
+
+client.on('channelCreate', async (channel: TextChannel | VoiceChannel) => {
+  const guild = await client.guilds.fetch(conf.guildID);
+  const sendChannel = (await guild.channels.fetch(
+    conf.logChannel,
+  )) as TextChannel;
+
+  sendChannel.send({
+    embeds: [sendModifedChannel(guild, channel, 'created')],
+  });
+});
+
+client.on('channelDelete', async (channel: TextChannel | VoiceChannel) => {
+  const guild = await client.guilds.fetch(conf.guildID);
+  const sendChannel = (await guild.channels.fetch(
+    conf.logChannel,
+  )) as TextChannel;
+
+  sendChannel.send({
+    embeds: [sendModifedChannel(guild, channel, 'deleted')],
+  });
+});
+
+client.on('guildMemberRemove', async (member: GuildMember) => {
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = (await guild.channels.fetch(conf.logChannel)) as TextChannel;
+
+  channel.send({
+    embeds: [memberLeftEmbed(member)],
+  });
+});
+
+client.on('roleCreate', async (role: Role) => {
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = (await guild.channels.fetch(conf.logChannel)) as TextChannel;
+
+  channel.send({
+    embeds: [sendRoleEventEmbed(role, 'created')],
+  });
+});
+
+client.on('roleDelete', async (role: Role) => {
+  const guild = await client.guilds.fetch(conf.guildID);
+  const channel = (await guild.channels.fetch(conf.logChannel)) as TextChannel;
+
+  channel.send({
+    embeds: [sendRoleEventEmbed(role, 'deleted')],
+  });
+});
+
 // Music controller
 // Stops playing music when there is no one in the voice channel
 // Resumes playing when someone joins the voice channel
@@ -111,6 +203,7 @@ client.on('messageCreate', async (message: any) => {
   const shortcuts = await Shortcut.getAll();
 
   if (message.channel.type != 'GUILD_TEXT') return;
+
   if (message.author.id == client.user.id) return;
 
   shortcuts.forEach((shortcut: any) => {
@@ -120,13 +213,6 @@ client.on('messageCreate', async (message: any) => {
       });
     }
   });
-
-  await Member.logMessage(
-    message.author.id,
-    message.channel.name,
-    message.channelId,
-    message.content,
-  );
 });
 
 client.on('interactionCreate', async (interaction: Interaction) => {

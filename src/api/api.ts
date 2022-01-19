@@ -132,29 +132,6 @@ export default class Member {
 
     await axios.post(`${apiUrl}/mutes`, data, config);
   }
-
-  static async logMessage(
-    authorId: string,
-    channelName: string,
-    channelId: string,
-    content: string,
-  ) {
-    await checkForUser(authorId);
-    const author: number = (await Member.get(authorId)).id;
-
-    log.info(`Logging message from ${authorId} in ${channelName}: ${content}`);
-
-    const data: MessageData = {
-      data: {
-        author,
-        channelName,
-        channelId,
-        content,
-      },
-    };
-
-    await axios.post(`${apiUrl}/messages`, data, config);
-  }
 }
 
 interface MemberData {
@@ -194,14 +171,5 @@ interface MuteData {
     muted_by: number;
     member: number;
     reason: string;
-  };
-}
-
-interface MessageData {
-  data: {
-    author: number;
-    channelName: string;
-    channelId: string;
-    content: string;
   };
 }

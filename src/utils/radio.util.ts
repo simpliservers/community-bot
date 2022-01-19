@@ -67,7 +67,7 @@ export default class Radio {
 
     log.info(pl.name);
 
-    // await guildQueue.setRepeatMode(RepeatMode.SONG);
+    await guildQueue.setRepeatMode(RepeatMode.SONG);
 
     log.info('Playlist added!');
   }
