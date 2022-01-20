@@ -18,7 +18,7 @@ function sendEditedMessageEmbed(
     .setColor('#3DBEEE')
     .setAuthor(author.tag, pfp)
     .setDescription(
-      `Message edited in <#${channel.id}>. [Jumo to message](${messageLink})`,
+      `Message edited in <#${channel.id}>. [Jump to message](${messageLink})`,
     )
     .addFields(
       { name: 'Before', value: oldContent },
