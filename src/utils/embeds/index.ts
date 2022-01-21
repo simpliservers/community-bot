@@ -19,3 +19,4 @@ export { default as sendDeletedMessageEmbed } from './messageDeleted.embed';
 export { default as sendModifedChannel } from './modifiedChannel.embed';
 export { default as memberLeftEmbed } from './memberLeft.embed';
 export { default as sendRoleEventEmbed } from './roleEvent.embed';
+export { default as sendSuggestionReply } from './suggestionReply.embed';

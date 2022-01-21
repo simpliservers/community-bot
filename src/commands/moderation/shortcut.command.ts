@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Interaction } from 'discord.js';
 import Shortcut from '../../api/shortcuts';
+import { checkUserPermissions } from '../../utils';
 import { shortcutsAction, displayShortcuts } from '../../utils/embeds';
 
 module.exports = {
@@ -60,12 +61,24 @@ module.exports = {
 
     switch (action) {
       case 'create':
+        if (!checkUserPermissions(interaction.member))
+          return interaction.reply({
+            content: "You don't have permission to do that.",
+            ephemeral: true,
+          });
+
         await Shortcut.create(name, content);
         await interaction.reply({
           embeds: [shortcutsAction(name, content, 'create')],
         });
         break;
       case 'delete':
+        if (!checkUserPermissions(interaction.member))
+          return interaction.reply({
+            content: "You don't have permission to do that.",
+            ephemeral: true,
+          });
+
         await Shortcut.delete(name);
         await interaction.reply({
           embeds: [shortcutsAction(name, content, 'delete')],

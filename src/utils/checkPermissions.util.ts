@@ -9,7 +9,7 @@ function checkUserPermissions(member: any): boolean {
   });
 
   if (
-    member.permissions.has('KICK_MEMBERS', {
+    member.permissions.has('ADMINISTRATOR', {
       checkAdmin: true,
       checkOwner: true,
     })
