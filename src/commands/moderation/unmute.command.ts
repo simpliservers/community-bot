@@ -65,7 +65,7 @@ module.exports = {
         .then(() => {
           interaction.reply({
             embeds: [
-              sendMuteAction(user.id, interaction.user.id, '/', 'unmute'),
+              sendMuteAction(interaction.user.id, user.id, '/', 'unmute'),
             ],
           });
         })

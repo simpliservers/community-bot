@@ -57,7 +57,7 @@ module.exports = {
           await Member.mute(user!.id, interaction.user.id, reason);
           await interaction.reply({
             embeds: [
-              sendMuteAction(user!.id, interaction.user.id, reason, 'mute'),
+              sendMuteAction(interaction.user.id, user!.id, reason, 'mute'),
             ],
           });
         })
