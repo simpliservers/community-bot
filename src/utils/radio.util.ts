@@ -37,10 +37,22 @@ export default class Radio {
       log.info('Bot inside');
 
       if (channel.members.size === 1) {
-        if (guildQueue.nowPlaying) await Radio.pause(conf.guildID);
+        if (guildQueue.nowPlaying) {
+          try {
+            await Radio.pause(conf.guildID);
+          } catch (e) {
+            log.error(`There was an error pausing the radio: ${e}`);
+          }
+        }
         return log.info('Bot is alone in the voice channel');
       } else if (channel.members.size > 1) {
-        if (guildQueue.nowPlaying) await Radio.resume(conf.guildID);
+        if (guildQueue.nowPlaying) {
+          try {
+            await Radio.resume(conf.guildID);
+          } catch (e) {
+            log.error(`There was an error resuming the radio: ${e}`);
+          }
+        }
         return log.info('Bot is inside with people');
       }
     }
@@ -56,20 +68,28 @@ export default class Radio {
 
     if (!channel) return log.error('No voice channel found.');
 
-    await queue.join(channel);
-    log.info('Joined channel.');
+    try {
+      await queue.join(channel);
+      log.info('Joined channel.');
+    } catch (e) {
+      log.error(`There was an error joining the channel: ${e}`);
+    }
 
     log.info('Adding playlist to queue...');
 
-    const pl: any = await queue.playlist(playlist).catch((_: any) => {
-      if (!guildQueue) queue.stop();
-    });
+    try {
+      const pl: any = await queue.playlist(playlist).catch((_: any) => {
+        if (!guildQueue) queue.stop();
+      });
 
-    log.info(pl.name);
+      log.info(pl.name);
 
-    await guildQueue.setRepeatMode(RepeatMode.SONG);
+      await guildQueue.setRepeatMode(RepeatMode.SONG);
 
-    log.info('Playlist added!');
+      log.info('Playlist added!');
+    } catch (e) {
+      log.error(`There was an error adding the playlist: ${e}`);
+    }
   }
 
   static async playlist(interaction: Interaction, playlist: string) {
@@ -117,43 +137,68 @@ export default class Radio {
         ephemeral: true,
       });
 
-    await queue.join(voiceChannel);
+    try {
+      await queue.join(voiceChannel);
+    } catch (e) {
+      log.error(`There was an error joining the channel: ${e}`);
+    }
 
     await interaction.reply('Resetting playlist...');
-    await guildQueue.clearQueue();
 
-    const pl: any = await queue.playlist(playlist).catch((_: any) => {
-      if (!guildQueue) queue.stop();
-    });
+    try {
+      await guildQueue.clearQueue();
+    } catch (e) {
+      log.error(`There was an error clearing the queue: ${e}`);
+    }
 
-    await guildQueue.skip();
+    try {
+      const pl: any = await queue.playlist(playlist).catch((_: any) => {
+        if (!guildQueue) queue.stop();
+      });
 
-    await guildQueue.setRepeatMode(RepeatMode.QUEUE);
+      await guildQueue.skip();
 
-    const embed = new MessageEmbed()
-      .setColor('#3DBEEE')
-      .setTitle(`${pl.name}`)
-      .setDescription(`by ${pl.author}`)
-      .setTimestamp();
+      await guildQueue.setRepeatMode(RepeatMode.QUEUE);
 
-    interaction.editReply({
-      embeds: [embed],
-    });
+      const embed = new MessageEmbed()
+        .setColor('#3DBEEE')
+        .setTitle(`${pl.name}`)
+        .setDescription(`by ${pl.author}`)
+        .setTimestamp();
+
+      interaction.editReply({
+        embeds: [embed],
+      });
+    } catch (e) {
+      log.error(`There was an error adding the playlist: ${e}`);
+    }
   }
 
   static async pause(guildID: string) {
     log.info('Pausing radio.');
 
-    const guildQueue: Queue = client.player.getQueue(guildID);
+    try {
+      const guildQueue: Queue = client.player.getQueue(guildID);
 
-    await guildQueue.setPaused(true);
+      await guildQueue.setPaused(true);
+
+      log.info('Radio paused.');
+    } catch (e) {
+      log.error(`There was an error pausing the radio: ${e}`);
+    }
   }
 
   static async resume(guildID: string) {
     log.info('Resuming radio.');
 
-    const guildQueue: Queue = client.player.getQueue(guildID);
+    try {
+      const guildQueue: Queue = client.player.getQueue(guildID);
 
-    await guildQueue.setPaused(false);
+      await guildQueue.setPaused(false);
+
+      log.info('Radio resumed.');
+    } catch (e) {
+      log.error(`There was an error resuming the radio: ${e}`);
+    }
   }
 }
