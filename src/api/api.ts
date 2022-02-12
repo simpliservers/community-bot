@@ -34,11 +34,13 @@ export default class Member {
       },
     };
 
-    const member: number = await Member.get(discordid);
+    try {
+      await axios.post(`${apiUrl}/members`, data, config);
 
-    if (member) return log.info('Member already exists');
-
-    await axios.post(`${apiUrl}/members`, data, config);
+      log.info(`Member ${username} with discordid ${discordid} created`);
+    } catch (e) {
+      log.error(`There was an error creating the user ${username}: ${e}`);
+    }
   }
 
   static async ban(bannedId: string, bannerId: string, reason: string) {
